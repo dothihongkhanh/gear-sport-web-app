@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quyen', function (Blueprint $table) {
-            $table->id();
-            $table->enum('ten_quyen',[Quyen::QuanTriVien, Quyen::KhachHang])->default(Quyen::KhachHang);
+            $table->unsignedBigInteger('ma_quyen')->autoIncrement();
+            $table->string('ten_quyen');
             $table->timestamps();
         });
     }

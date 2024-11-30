@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nguoi_dung', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('ma_nguoi_dung')->autoIncrement();
             $table->string('ten_nguoi_dung');
             $table->string('email')->unique();
             $table->timestamp('thoi_gian_xac_thuc_email')->nullable();

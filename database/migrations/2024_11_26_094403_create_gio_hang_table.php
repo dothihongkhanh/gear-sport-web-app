@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gio_hang', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('ma_gio_hang')->autoIncrement();
             $table->unsignedBigInteger('ma_nguoi_dung');
             $table->unsignedBigInteger('ma_chi_tiet_san_pham');
             $table->unsignedInteger('so_luong');
             $table->timestamps();
 
             $table->foreign('ma_nguoi_dung')
-                ->references('id')->on('nguoi_dung')->onUpdate('cascade')->onDelete('cascade');
+                ->references('ma_nguoi_dung')->on('nguoi_dung')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('ma_chi_tiet_san_pham')
-                ->references('id')->on('chi_tiet_san_pham')->onUpdate('cascade')->onDelete('cascade');
+                ->references('ma_chi_tiet_san_pham')->on('chi_tiet_san_pham')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

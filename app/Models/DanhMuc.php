@@ -10,8 +10,9 @@ class DanhMuc extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'danh_muc';
+    protected $primaryKey = 'ma_danh_muc';
     protected $fillable = [
-        'ma_danh_muc',
         'ten_danh_muc',
     ];
 

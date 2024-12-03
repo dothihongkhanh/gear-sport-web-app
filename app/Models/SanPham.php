@@ -10,8 +10,9 @@ class SanPham extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'san_pham';
+    protected $primaryKey = 'ma_san_pham';
     protected $fillable = [
-        'ma_san_pham',
         'ma_danh_muc',
         'ma_thuong_hieu',
         'ten_san_pham',
@@ -27,5 +28,10 @@ class SanPham extends Model
     public function thuongHieu()
     {
         return $this->belongsTo(ThuongHieu::class, 'ma_thuong_hieu', 'ma_thuong_hieu');
+    }
+
+    public function chiTietSanPham()
+    {
+        return $this->hasMany(ChiTietSanPham::class, 'ma_san_pham', 'ma_san_pham')->withTrashed();
     }
 }

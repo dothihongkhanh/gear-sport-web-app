@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/products/list" class="nav-link">
+                    <a href="/admin/sanpham" class="nav-link">
                         <i class="nav-icon fas fa-box-open"></i>
                         <p>Sản Phẩm</p>
                     </a>

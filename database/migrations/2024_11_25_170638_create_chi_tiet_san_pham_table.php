@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('chi_tiet_san_pham', function (Blueprint $table) {
             $table->unsignedBigInteger('ma_chi_tiet_san_pham')->autoIncrement();
             $table->unsignedBigInteger('ma_san_pham');
-            $table->text('thuoc_tinh')->nullable();            
+            $table->text('thuoc_tinh')->nullable();
+            $table->text('hinh_anh_chi_tiet');
             $table->decimal('gia');
             $table->integer('so_luong');
             $table->softDeletes();

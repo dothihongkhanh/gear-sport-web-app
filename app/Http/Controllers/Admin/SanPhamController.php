@@ -43,7 +43,7 @@ class SanPhamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ThemSanPhamRequest $request)
+    public function storeWithDetails(ThemSanPhamRequest $request)
     {
         try {
             $ma_danh_muc = $request->input('ma_danh_muc');
@@ -61,7 +61,67 @@ class SanPhamController extends Controller
                 'mo_ta' => $mo_ta,
                 'hinh_anh' => Storage::url($url_hinh_anh),
             ]);
-            $sanPham->save();
+
+            $ma_san_pham = $sanPham->ma_san_pham;
+            $chiTietSanPham = $request->input('chiTietSanPham', []);
+            foreach ($chiTietSanPham as $index => $chiTiet) {
+                $hinh_anh_chi_tiet = $request->file('chiTietSanPham.' . $index . '.hinh_anh_chi_tiet');
+                if ($hinh_anh_chi_tiet) {
+                    $url_hinh_anh_chi_tiet = $hinh_anh_chi_tiet->store('sanpham/chitiet', 'public');
+                    $url_hinh_anh_chi_tiet = Storage::url($url_hinh_anh_chi_tiet);
+                } else {
+                    $url_hinh_anh_chi_tiet = Storage::url($url_hinh_anh);
+                }
+
+                $chiTietSanPham = ChiTietSanPham::create([
+                    'ma_san_pham' => $ma_san_pham,
+                    'thuoc_tinh' => $chiTiet['thuoc_tinh'],
+                    'gia' => $chiTiet['gia'],
+                    'hinh_anh_chi_tiet' => $url_hinh_anh_chi_tiet,
+                    'so_luong' => $chiTiet['so_luong'],
+                ]);
+            }
+            toastr()->success('Thêm sản phẩm thành công!');
+
+            return redirect()->route('admin.sanpham');
+        } catch (\Exception $e) {
+            dd($e);
+            toastr()->error('Có lỗi khi thêm sản phẩm!');
+
+            return redirect()->back();
+        }
+    }
+
+    public function storeWithNoDetails(ThemSanPhamRequest $request)
+    {
+        try {
+            $ma_danh_muc = $request->input('ma_danh_muc');
+            $ma_thuong_hieu = $request->input('ma_thuong_hieu');
+            $ten_san_pham = $request->input('ten_san_pham');
+            $mo_ta = $request->input('mo_ta');
+            $hinh_anh = $request->file('hinh_anh');
+            $gia = $request->input('gia');
+            $so_luong = $request->input('so_luong');
+
+            $url_hinh_anh = $hinh_anh->store('sanpham', 'public');
+
+            $sanPham = SanPham::create([
+                'ma_danh_muc' => $ma_danh_muc,
+                'ma_thuong_hieu' => $ma_thuong_hieu,
+                'ten_san_pham' => $ten_san_pham,
+                'mo_ta' => $mo_ta,
+                'hinh_anh' => Storage::url($url_hinh_anh),
+            ]);
+
+            $ma_san_pham = $sanPham->ma_san_pham;
+
+            ChiTietSanPham::create([
+                'ma_san_pham' => $ma_san_pham,
+                'thuoc_tinh' => null,
+                'gia' => $gia,
+                'hinh_anh_chi_tiet' => Storage::url($url_hinh_anh),
+                'so_luong' => $so_luong,
+            ]);
             toastr()->success('Thêm sản phẩm thành công!');
 
             return redirect()->route('admin.sanpham');

@@ -26,6 +26,17 @@ class NguoiDungSeeder extends Seeder
                 'updated_at' => Carbon::now(),
                 'ma_quyen' => 1,
             ],
+            [
+                'ten_nguoi_dung' => 'khh',
+                'email' => 'khanh@gmail.com',
+                'thoi_gian_xac_thuc_email' => Carbon::now(),
+                'mat_khau' => bcrypt(123123),
+                'remember_token' => null,
+                'ma_google' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'ma_quyen' => 2,
+            ],
         ]);
     }
 }

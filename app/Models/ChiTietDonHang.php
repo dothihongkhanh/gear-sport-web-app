@@ -10,8 +10,9 @@ class ChiTietDonHang extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'chi_tiet_don_hang';
+    protected $primaryKey = 'ma_chi_tiet_don_hang';
     protected $fillable = [
-        'ma_chi_tiet_don_hang',
         'ma_don_hang',
         'ma_chi_tiet_san_pham',
         'gia',

@@ -10,8 +10,9 @@ class NguoiDung extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'nguoi_dung';
+    protected $primaryKey = 'ma_nguoi_dung';
     protected $fillable = [
-        'ma_nguoi_dung',
         'ten_nguoi_dung',
         'email',
         'thoi_gian_xac_thuc_email',
@@ -23,5 +24,10 @@ class NguoiDung extends Model
     public function donHang()
     {
         return $this->hasMany(DonHang::class, 'ma_nguoi_dung', 'ma_nguoi_dung');
+    }
+
+    public function soDonHang()
+    {
+        return $this->donHang()->count();
     }
 }

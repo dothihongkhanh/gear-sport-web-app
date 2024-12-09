@@ -30,13 +30,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin/nguoidung" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Khách hàng</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin/donhang" class="nav-link">
                         <i class="nav-icon fas fa-cart-plus"></i>
                         <p>Đơn hàng</p>
                     </a>

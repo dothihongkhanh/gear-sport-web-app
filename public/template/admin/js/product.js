@@ -1,166 +1,34 @@
 // add image
 $(document).ready(function() {
-    var readURL = function(input) {
+    // Hàm đọc và hiển thị hình ảnh sau khi chọn
+    var readURL = function(input, imageId) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            var reader = new FileReader();  // Tạo một đối tượng FileReader để đọc ảnh
 
             reader.onload = function(e) {
-                $('#show-image').attr('src', e.target.result);
+                // Cập nhật thuộc tính src cho thẻ img và hiển thị hình ảnh
+                $(imageId).attr('src', e.target.result);  // Đặt nguồn ảnh cho thẻ img
+                $(imageId).show();  // Hiển thị ảnh
             }
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[0]);  // Đọc tệp ảnh thành chuỗi base64
         }
     }
-    $("#image-input").on('change', function() {
-        readURL(this);
+
+    // Khi người dùng chọn ảnh, cập nhật ảnh cho thẻ img tương ứng
+    $(".image-input").on('change', function() {
+        var inputId = $(this).attr('id');  // Lấy id của input
+        if (!inputId) return;  // Nếu id không hợp lệ thì dừng
+
+        var imageId = '#show-image-' + inputId.replace('image-input-', '');  // Tạo id tương ứng cho img dựa trên id của input
+
+        // Kiểm tra xem id của input có hợp lệ không
+        if (inputId) {
+            readURL(this, imageId);  // Cập nhật ảnh cho tab tương ứng
+        }
     });
 });
 
-// add detail
-// $(document).ready(function () {
-//     // Xử lý sự kiện click nút "Xóa"
-//     $("#detail-container").on("click", ".js-remove-row", function() {
-//         var row = $(this).closest('.row');
-//         row.remove();
-//     });
-
-//     // $("#add-new-detail").on("click", function() {
-//     //     // if (isFormValid()) {
-//     //         addNewRow();
-//     //     // } else {
-//     //     //     alert("Vui lòng điền đầy đủ thông tin");
-//     //     // }
-//     // });
-//     $("#add-new-detail").on("click", function() {
-//         if ($("#detail-container .detail-row").length > 0) {
-//             // Nếu có hàng đầu tiên, thêm một hàng mới bình thường
-//             addNewRow();
-//         } else {
-//             // Nếu không có hàng đầu tiên, tạo một hàng mới từ đầu
-//             createFirstRow();
-//         }
-//     });
-
-//     // function isFormValid() {
-//     //     // Kiểm tra xem tất cả các ô input có giá trị không
-//     //     var isValid = true;
-//     //     $("#detail-container .row:first input").each(function() {
-//     //         if ($(this).val() === '') {
-//     //             isValid = false;
-//     //             return false; // Thoát khỏi vòng lặp nếu có ô input không có giá trị
-//     //         }
-//     //     });
-//     //     return isValid;
-//     // }
-//     function createFirstRow() {
-//         // Tạo HTML cho một hàng mới với các trường chi tiết
-//         var newDetailRow = `
-//             <div class="row detail-row">
-//                 <div class="col-sm-2">
-//                     <div class="form-group">
-//                         <label>Size</label>
-//                         <input type="number" class="form-control" name="details[0][size]" placeholder="Nhập size">
-//                     </div>
-//                 </div>
-//                 <div class="col-sm-2">
-//                     <div class="form-group">
-//                         <label>Màu sắc</label>
-//                         <input type="text" class="form-control" name="details[0][color]" placeholder="Nhập màu sắc">
-//                     </div>
-//                 </div>
-//                 <div class="col-sm-2">
-//                     <div class="form-group">
-//                         <label>Số lượng</label>
-//                         <input type="number" class="form-control" name="details[0][inventory_number]" placeholder="Nhập số lượng">
-//                     </div>
-//                 </div>
-//                 <div class="col-sm-3">
-//                     <label>Hình ảnh</label>
-//                     <input type="file" name="details[0][image_detail_upload]" accept="image/*" class="image-input-detail form-control">
-//                     <input type="hidden" name="details[0][avt_detail_hidden]" value="">
-//                     <img src="" class="show-image-detail" alt="" width="80px">
-//                 </div>
-//                 <div class="col-sm-1">
-//                     <div class="form-group">
-//                         <button type="button" class="btn btn-danger js-remove-row mt-4">Xóa</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         `;
-        
-
-//         // Thêm hàng mới vào container
-//         $('#detail-container').append(newDetailRow);
-
-//         // Cập nhật sự kiện change cho input file
-//         $('.image-input-detail:last').off('change').on('change', handleImageChange);
-
-//         // Tăng chỉ mục của chi tiết sản phẩm trong tên ô input
-//         newRow.find('input').each(function() {
-//             var name = $(this).attr('name');
-//             var matches = name.match(/\[(\d+)\]/);
-//             if (matches) {
-//                 var newIndex = parseInt(matches[1]) + 1;
-//                 name = name.replace(/\[(\d+)\]/, '[' + newIndex + ']');
-//                 $(this).attr('name', name);
-//             }
-//         });
-//     }
-
-//     function addNewRow() {
-//         // Sao chép hàng đầu tiên
-//         var lastRowIndex = $("#detail-container .detail-row").length;
-//         var newRow = $("#detail-container .detail-row:first").clone();
-
-//         // Tăng chỉ mục của chi tiết sản phẩm trong tên ô input
-//         newRow.find('input').each(function() {
-//             var name = $(this).attr('name');
-//             var matches = name.match(/\[(\d+)\]/);
-//             if (matches) {
-//                 var newIndex = parseInt(matches[1]) + 1;
-//                 name = name.replace(/\[(\d+)\]/, '[' + newIndex + ']');
-//                 $(this).attr('name', name);
-//             }
-//         });
-        
-//         // Xóa giá trị của các ô input trong hàng mới
-//         newRow.find('input').val('');
-
-//         // Đặt ảnh về trạng thái rỗng trong hàng mới
-//         newRow.find('.show-image-detail').attr('src', '');
-
-//         // Thêm nút xóa và sự kiện xóa vào hàng mới
-//         newRow.find('.col-sm-1').html('<div class="col-sm-1"><div class="form-group"><button type="button" class="btn btn-danger js-remove-row mt-4">Xóa</button></div></div>');
-
-//         // Thêm hàng mới vào cuối #detail-container
-//         $("#detail-container").append(newRow);
-
-//         // Cập nhật sự kiện change cho input file
-//         $('.image-input-detail:last').off('change').on('change', handleImageChange);
-//     }
-
-//     // Sự kiện thay đổi của input file
-//     function handleImageChange() {
-//         var showImage = $(this).closest('.row').find('.show-image-detail');
-//         readURL(this, showImage);
-//     }
-
-//     // Hiển thị hình ảnh đã chọn
-//     function readURL(input, showImage) {
-//         if (input.files && input.files[0]) {
-//             var reader = new FileReader();
-
-//             reader.onload = function (e) {
-//                 showImage.attr('src', e.target.result);
-//             }
-
-//             reader.readAsDataURL(input.files[0]);
-//         }
-//     }
-
-//     // Cập nhật sự kiện change cho input file khi trang được tải
-//     $('.image-input-detail').on('change', handleImageChange);
-// });
 
 
 $(document).ready(function() {
@@ -177,26 +45,26 @@ $(document).ready(function() {
         newDetailDiv.html(`
             <div class="col-sm-2">
                 <div class="form-group">
-                    <label>Size <span class="text-danger"> (*)</span></label>
-                    <input type="number" class="form-control" name="details[${currentDetailIndex}][size]" placeholder="Nhập size">
+                    <label>Thuộc tính<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="chiTietSanPham[${currentDetailIndex}][thuoc_tinh]" placeholder="Nhập thuộc tính">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
-                    <label>Màu sắc <span class="text-danger"> (*)</span></label>
-                    <input type="text" class="form-control" name="details[${currentDetailIndex}][color]" placeholder="Nhập màu sắc">
+                    <label>Giá<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="chiTietSanPham[${currentDetailIndex}][gia]" placeholder="Nhập giá">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
-                    <label>Số lượng <span class="text-danger"> (*)</span></label>
-                    <input type="number" class="form-control" name="details[${currentDetailIndex}][inventory_number]" placeholder="Nhập số lượng">
+                    <label>Số lượng<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="chiTietSanPham[${currentDetailIndex}][so_luong]" placeholder="Nhập số lượng">
                 </div>
             </div>
             <div class="col-sm-3">
                 <label>Hình ảnh</label>
-                <input type="file" name="details[${currentDetailIndex}][image_detail_upload]" accept="image/*" class="image-input-detail form-control" data-image-id="detail-image-${currentDetailIndex}">
-                <input type="hidden" name="details[${currentDetailIndex}][avt_detail_hidden]" id="avt-detail-hidden-${currentDetailIndex}" value="">
+                <input type="file" name="chiTietSanPham[${currentDetailIndex}][hinh_anh_chi_tiet]" accept="image/*" class="image-input-detail form-control" data-image-id="detail-image-${currentDetailIndex}">
+                <input type="hidden" name="chiTietSanPham[${currentDetailIndex}][hinh_anh_chi_tiet_an]" id="avt-detail-hidden-${currentDetailIndex}" value="">
                 <img src="" class="show-image-detail" alt="" width="80px">
             </div>
             <div class="col-sm-1">

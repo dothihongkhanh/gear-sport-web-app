@@ -10,8 +10,9 @@ class DonHang extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'don_hang';
+    protected $primaryKey = 'ma_don_hang';
     protected $fillable = [
-        'ma_don_hang',
         'ma_nguoi_dung',
         'ten_nguoi_nhan',
         'sdt_nhan_hang',

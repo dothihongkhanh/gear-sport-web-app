@@ -2,7 +2,7 @@
 @section('title', 'Danh sách sản phẩm')
 @section('content')
 <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary mb-3">Thêm sản phẩm</a>
-<table class="table table-hover">
+<table class="table table-hover table-bordered">
     <tr>
         <th>Mã sản phẩm</th>
         <th>Hình ảnh</th>
@@ -27,7 +27,7 @@
 
                 @if ($sanPham->trashed())
                 <form action="{{ route('admin.sanpham.restore', ['ma_san_pham' => $sanPham->ma_san_pham]) }}"
-                    method="POST" 
+                    method="POST"
                     id="restore-form"
                     style="display: inline;">
                     @csrf
@@ -52,6 +52,7 @@
                         document.getElementById('delete-form').submit();
                     }
                 }
+
                 function confirmRestore() {
                     if (confirm('Bạn có chắc chắn muốn mở khóa sản phẩm này?')) {
                         document.getElementById('restore-form').submit();

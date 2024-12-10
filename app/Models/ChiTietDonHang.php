@@ -29,6 +29,11 @@ class ChiTietDonHang extends Model
         return $this->belongsTo(SanPham::class, 'ma_chi_tiet_san_pham', 'ma_san_pham');
     }
 
+    public function chiTietSanPham()
+    {
+        return $this->belongsTo(ChiTietSanPham::class, 'ma_chi_tiet_san_pham', 'ma_chi_tiet_san_pham');
+    }
+
     public function thanhTien()
     {
         return $this->gia * $this->so_luong_dat;

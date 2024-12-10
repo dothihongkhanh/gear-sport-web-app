@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\TrangThaiDonHang;
 use App\Http\Controllers\Controller;
 use App\Models\DonHang;
 use Illuminate\Http\Request;
@@ -37,25 +38,42 @@ class DonHangController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $ma_don_hang)
     {
-        //
+        $donHang = DonHang::withTrashed()->with('chiTietDonHang')->findOrFail($ma_don_hang);
+
+        return view('admin.donhang.detail', compact('donHang'), [
+            'title' => 'Chi tiết đơn hàng'
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for approval the specified resource.
      */
-    public function edit(string $id)
+    public function approval(string $ma_don_hang)
     {
-        //
+        $donHang = DonHang::findOrFail($ma_don_hang);
+
+        if ($donHang->trang_thai == TrangThaiDonHang::DangChoXuLy) {
+            $donHang->trang_thai = TrangThaiDonHang::DangGiaoHang;
+            $donHang->save();
+            toastr()->success('Duyệt đơn hàng thành công!');
+
+            return redirect()->route('admin.donhang');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function filter(Request $request)
     {
-        //
+        $trangThai = $request->get('trang_thai');
+
+        $dsDonHang = DonHang::when($trangThai, function ($query) use ($trangThai) {
+            $query->where('trang_thai', $trangThai);
+        })->get();
+
+        return view('admin.donhang.index', compact('trangThai', 'dsDonHang'), [
+            'title' => 'Quản lý đơn hàng'
+        ]);
     }
 
     /**

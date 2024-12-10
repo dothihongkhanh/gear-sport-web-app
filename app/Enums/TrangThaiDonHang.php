@@ -11,8 +11,18 @@ use BenSampo\Enum\Enum;
  */
 final class TrangThaiDonHang extends Enum
 {
-    const DangChoXuLy = 0;
-    const DangGiaoHang = 1;
-    const HoanThanh = 2;
-    const DaHuy = 3;
+    const DangChoXuLy = 'Đang chờ xử lý';
+    const DangGiaoHang = 'Đang giao hàng';
+    const HoanThanh = 'Hoàn thành';
+    const DaHuy = 'Đã hủy';
+
+    public static function all(): array
+    {
+        return [
+            self::DangChoXuLy,
+            self::DangGiaoHang,
+            self::HoanThanh,
+            self::DaHuy,
+        ];
+    }
 }

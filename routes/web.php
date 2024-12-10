@@ -79,6 +79,8 @@ Route::prefix('admin')->group(function () {
         Route::controller(DonHangController::class)->group(function () {
             Route::get('', 'index')->name('admin.donhang');
             Route::get('detail/{ma_don_hang}', 'show')->name('admin.donhang.detail');
+            Route::patch('approval/{ma_don_hang}', 'approval')->name('admin.donhang.approval');
+            Route::get('filter', 'filter')->name('admin.donhang.filter');
         });
     });
 });

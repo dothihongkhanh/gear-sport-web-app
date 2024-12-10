@@ -38,7 +38,7 @@ class DonHang extends Model
     public function tongGiaTri()
     {
         return $this->chiTietDonHang->sum(function ($chiTiet) {
-            return $chiTiet->tongGiaTri(); // Tổng giá trị của mỗi chi tiết đơn hàng
+            return $chiTiet->thanhTien(); // Tổng giá trị của mỗi chi tiết đơn hàng
         });
     }
 }

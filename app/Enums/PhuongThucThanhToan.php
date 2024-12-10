@@ -11,6 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class PhuongThucThanhToan extends Enum
 {
-    const VNPay = 0;
-    const ThanhToanKhiNhanHang = 1;
+    const VNPay = 'VN Pay';
+    const ThanhToanKhiNhanHang = 'Thanh toán khi nhận hàng';
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('ten_nguoi_dung');
             $table->string('email')->unique();
             $table->timestamp('thoi_gian_xac_thuc_email')->nullable();
-            $table->string('mat_khau');
+            $table->string('password');
             $table->rememberToken();
             $table->string('ma_google')->nullable();
             $table->softDeletes();

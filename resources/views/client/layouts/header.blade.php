@@ -15,9 +15,10 @@
                     <div class="col-md-4 d-none d-md-block">
                         <select class="form-select border-0 bg-transparent">
                             <option>Danh mục</option>
-                            <option>Groceries</option>
-                            <option>Drinks</option>
-                            <option>Chocolates</option>
+
+                            @foreach ($dsDanhMuc as $danhMuc)
+                            <option>{{ $danhMuc->ten_danh_muc }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-11 col-md-7">
@@ -47,18 +48,33 @@
 
             <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                 @auth
-                <ul class="d-flex justify-content-end list-unstyled m-0">
-                    <li>
-                        <a href="#" class="p-2 mx-1">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
-                    </li>
-                </ul>
+
+                <a href="" class="position-relative">
+                    <i class="fa-solid fa-cart-shopping text-primary" style="font-size: 22px; width: 22px; height: 22px"></i>
+                    <span class="cart-count position-absolute top-0 start-100 translate-middle-x translate-middle-y badge rounded-pill bg-danger">
+                       {{ $spGioHang }}
+                    </span>
+
+                </a>
+
+                <div class="dropdown">
+                    <strong class="text-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ Auth::user()->ten_nguoi_dung }}
+                    </strong>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">Đơn mua</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                {{ __('Đăng xuất') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
                 @else
                 <div class="">
                     <a href="{{ route('login') }}" class="btn btn-primary rounded-1 p-2">

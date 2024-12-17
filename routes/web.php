@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\NguoiDungController;
 use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\ThuongHieuController;
+use App\Http\Controllers\Client\TrangChuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -93,8 +94,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-Route::get('/client-layout', function () {
-    return view('client.home.index');
+//client
+Route::controller(TrangChuController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('chi-tiet-san-pham/{ma_san_pham}','detail')->name('client.sanpham.detail');
 });
-
 

@@ -34,4 +34,9 @@ class SanPham extends Model
     {
         return $this->hasMany(ChiTietSanPham::class, 'ma_san_pham', 'ma_san_pham')->withTrashed();
     }
+
+    public function tongSoLuong()
+    {
+        return $this->chiTietSanPham->sum('so_luong');
+    }
 }

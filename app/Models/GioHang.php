@@ -9,8 +9,9 @@ class GioHang extends Model
 {
     use HasFactory;
 
+    protected $table = 'gio_hang';
+    protected $primaryKey = 'ma_gio_hang';
     protected $fillable = [
-        'ma_gio_hang',
         'ma_nguoi_dung',
         'ma_chi_tiet_san_pham',
         'so_luong',

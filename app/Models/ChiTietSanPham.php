@@ -24,4 +24,9 @@ class ChiTietSanPham extends Model
     {
         return $this->belongsTo(SanPham::class, 'ma_san_pham', 'ma_san_pham');
     }
+
+    public function hetHang()
+    {
+        return $this->so_luong == 0;
+    }
 }

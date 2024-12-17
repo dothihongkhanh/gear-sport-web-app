@@ -28,7 +28,7 @@ body {
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 2;
-  --bs-body-color: #747474;
+  --bs-body-color: #000;
 
   --bs-primary: #0000CD;
   --bs-primary-rgb: 0, 0, 205;
@@ -36,8 +36,8 @@ body {
   --bs-secondary: #1E90FF;
   --bs-secondary-rgb: 30, 144, 255;
   
-  --bs-danger: #63B8FF;
-  --bs-danger-rgb: 99, 184, 255;
+  --bs-danger: #FF0000;
+  --bs-danger-rgb: 255, 0, 0;
 
   --bs-success: #a3be4c;
   --bs-success-rgb: 163, 190, 76;
@@ -46,6 +46,9 @@ body {
   --bs-success-bg-subtle: #eef5e5;
   
   --bs-border-color: #F7F7F7;
+
+  --bs-red: #FF0000;
+  --bs-red-rgb: 255, 0, 0;
 }
 .btn-primary {
   --bs-btn-color: #fff;

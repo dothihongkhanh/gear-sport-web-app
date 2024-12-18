@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('ten_nguoi_nhan');
             $table->string('sdt_nhan_hang');
             $table->string('dia_chi_nhan_hang');
-            $table->dateTime('thoi_gian_thanh_toan');
-            $table->dateTime('thoi_gian_nhan_hang');
+            $table->dateTime('thoi_gian_thanh_toan')->nullable();
+            $table->dateTime('thoi_gian_nhan_hang')->nullable();
             $table->enum('phuong_thuc_thanh_toan', [PhuongThucThanhToan::VNPay, PhuongThucThanhToan::ThanhToanKhiNhanHang])->default(PhuongThucThanhToan::ThanhToanKhiNhanHang);
             $table->enum('trang_thai', [TrangThaiDonHang::DangChoXuLy, TrangThaiDonHang::DangGiaoHang, TrangThaiDonHang::HoanThanh, TrangThaiDonHang::DaHuy])->default(TrangThaiDonHang::DangChoXuLy);
             $table->uuid('ma_giao_dich_vnpay')->nullable();

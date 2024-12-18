@@ -7,7 +7,6 @@ use App\Models\DanhMuc;
 use App\Models\GioHang;
 use App\Models\SanPham;
 use App\Models\ThuongHieu;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TrangChuController extends Controller
@@ -32,8 +31,7 @@ class TrangChuController extends Controller
 
     public function detail($ma_san_pham)
     {
-        $dsDanhMuc = DanhMuc::with('sanPham')->get();
         $sanPham = SanPham::withTrashed()->with('chiTietSanPham')->findOrFail($ma_san_pham);
-        return view('client.sanpham.index', compact('dsDanhMuc','sanPham'));
+        return view('client.sanpham.index', compact('sanPham'));
     }
 }

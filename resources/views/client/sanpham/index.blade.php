@@ -51,18 +51,21 @@
                         </p>
                         <p class="fw-bold">Thương hiệu: {{ $sanPham->thuongHieu->ten_thuong_hieu }}</p>
                         <p class="fw-bold">Danh mục: {{ $sanPham->danhMuc->ten_danh_muc }}</p>
-                        <p class="fw-bold">Số lượng: <span id="product-quantity">{{ $sanPham->tongSoLuong() }}</span></p>
+                        <p class="fw-bold">Số lượng còn: <span id="product-quantity-display">{{ $sanPham->tongSoLuong() }}</span></p>
 
                         @if(isset($sanPham->mo_ta))
                         <h6>Mô tả:</h6>
                         <p>{{ $sanPham->mo_ta }}</p>
                         @endif
-                        <form action="" method="GET" id="product-form">
+                        <form action="" method="POST" id="product-form">
+                            @csrf
+                            <input type="hidden" name="ma_san_pham" value="{{ $sanPham->ma_san_pham }}">
                             @if($sanPham->chiTietSanPham->count() > 1 || ($sanPham->chiTietSanPham->count() == 1 && $sanPham->chiTietSanPham->first()->thuoc_tinh != null))
+                            <input type="hidden" id="selected-attribute" name="ma_chi_tiet_san_pham" value="">
                             <div class="row">
                                 <div class="col-auto">
-                                    <ul class="list-inline pb-3">
-                                        <li class="list-inline-item">Thuộc tính:</li>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item fw-bold">Thuộc tính:</li>
                                         @foreach($sanPham->chiTietSanPham as $chiTiet)
                                         @if($chiTiet->thuoc_tinh != null)
                                         <li class="list-inline-item">
@@ -73,6 +76,7 @@
                                                 data-gia="{{ $chiTiet->gia }}"
                                                 data-hinh="{{ $chiTiet->hinh_anh_chi_tiet }}"
                                                 data-so-luong="{{ $chiTiet->so_luong }}"
+                                                data-ma-chi-tiet="{{ $chiTiet->ma_chi_tiet_san_pham }}"
                                                 onclick="changeProductDetails(this)">
                                                 {{ $chiTiet->thuoc_tinh }}
                                             </span>
@@ -82,7 +86,30 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item fw-bold">Số lượng:</li>
+                                        <li class="list-inline-item">
+                                            <input type="number" name="so_luong" min="1" value="1" id="product-quantity-input" max="1">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            @else
+                            <input type="hidden" name="ma_chi_tiet_san_pham" value={{ $sanPham->chiTietSanPham->first()->ma_chi_tiet_san_pham }}>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item fw-bold">Số lượng:</li>
+                                        <li class="list-inline-item">
+                                            <input type="number" name="so_luong" min="1" value="1" max="{{ $sanPham->chiTietSanPham->isNotEmpty() ? $sanPham->chiTietSanPham->first()->so_luong : 1 }}">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             @endif
+
                             <div class="row pb-3">
                                 <div class="col d-grid">
                                     <button type="submit" class="btn btn-primary rounded-1 p-2 btn-lg" name="submit" value="buy" id="buy-btn">Mua ngay</button>
@@ -92,7 +119,6 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -107,38 +133,51 @@
         let newPrice = element.getAttribute('data-gia');
         let newImage = element.getAttribute('data-hinh');
         let newQuantity = element.getAttribute('data-so-luong');
+        let attributeId = element.getAttribute('data-ma-chi-tiet'); // Lấy mã chi tiết sản phẩm
         let formattedPrice = parseInt(newPrice).toLocaleString('vi-VN') + ' VND';
 
-        // Update price
+        // Cập nhật thông tin giá và hình ảnh
         document.getElementById('product-price').innerText = formattedPrice;
-
-        // Update image
         document.getElementById('product-detail-image').src = newImage;
+        document.getElementById('product-quantity-display').innerText = newQuantity;
 
-        // Update quantity
-        document.getElementById('product-quantity').innerText = newQuantity;
+        // Cập nhật giá trị max cho input số lượng
+        let quantityInput = document.getElementById('product-quantity-input');
+        quantityInput.max = newQuantity; // Cập nhật max thành số lượng còn lại
 
-        // Gắn lại thuộc tính đã chọn
         selectedAttribute = element;
 
-        // Remove 'active' class from all attributes
+        // Cập nhật trạng thái của các thuộc tính
         let allAttributes = document.querySelectorAll('.btn-size');
         allAttributes.forEach(function(attribute) {
             attribute.classList.remove('active');
         });
-
-        // Add 'active' class to the selected attribute
         element.classList.add('active');
+
+        // Cập nhật giá trị của input hidden cho ma_chi_tiet_san_pham
+        document.getElementById('selected-attribute').value = attributeId;
     }
 
-    // Kiểm tra khi gửi form để chắc chắn rằng người dùng đã chọn thuộc tính
+    // Kiểm tra khi người dùng cố gắng submit mà không chọn thuộc tính
     document.getElementById('product-form').addEventListener('submit', function(event) {
-        if (selectedAttribute === null) {
-            event.preventDefault(); // Ngừng hành động gửi form
-            alert("Vui lòng chọn một thuộc tính sản phẩm!"); // Hiển thị thông báo
+        if (productHasAttributes && selectedAttribute === null) {
+            event.preventDefault();
+            alert("Vui lòng chọn một thuộc tính sản phẩm!");
         }
     });
+
+    // JavaScript để thay đổi action của form khi người dùng nhấn nút
+    document.getElementById('buy-btn').addEventListener('click', function() {
+        document.getElementById('product-form').action = "{{ route('client.buy') }}"; // Route cho hành động mua ngay
+        document.getElementById('product-form').submit(); // Gửi form
+    });
+
+    document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+        document.getElementById('product-form').action = "{{ route('client.addtocart') }}"; // Route cho hành động thêm vào giỏ hàng
+        document.getElementById('product-form').submit(); // Gửi form
+    });
 </script>
+
 
 
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Client\DonHangController as ClientDonHangController;
+use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Client\TrangChuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,19 @@ Route::controller(TrangChuController::class)->group(function () {
 Route::controller(ClientDonHangController::class)->group(function () {
     Route::post('luu', 'saveOrder')->name('client.donhang.luu');
     Route::post('buy', 'buyProduct')->name('client.buy');
-    Route::get('donhang', 'showOrder')->name('client.donhang.index');
+    Route::get('checkout-single', 'showOrder')->name('client.thanhtoan.checkout-single');
     Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
+    Route::post('cart', 'viewCart')->name('client.view-cart');
 });
+
+Route::controller(GioHangController::class)->group(function () {
+    Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
+    Route::get('cart', 'viewCart')->name('client.view-cart');
+    Route::delete('delete/{ma_gio_hang}', 'deleteCart')->name('client.giohang.delete');
+    Route::post('buy-from-cart', 'buyFromCart')->name('client.giohang.buy-from-cart');
+    Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
+    Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
+});
+
+
+

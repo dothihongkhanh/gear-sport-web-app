@@ -25,7 +25,7 @@ class DonHangController extends Controller
             'maChiTietSanPham' => $maChiTietSanPham,
         ]);
 
-        return redirect()->route('client.donhang.index');
+        return redirect()->route('client.thanhtoan.checkout-single');
     }
 
     public function showOrder()
@@ -39,7 +39,7 @@ class DonHangController extends Controller
         $chiTietSanPham = ChiTietSanPham::where('ma_chi_tiet_san_pham', $orderData['maChiTietSanPham'])->first();
         $soLuong = $orderData['soLuong'];
 
-        return view('client.donhang.index', compact('sanPham', 'soLuong', 'chiTietSanPham'));
+        return view('client.thanhtoan.checkout-single', compact('sanPham', 'soLuong', 'chiTietSanPham'));
     }
 
     public function saveOrder(ThemDonHangRequest $request)
@@ -61,19 +61,23 @@ class DonHangController extends Controller
             ]);
 
             $idDonHang = $donHang->ma_don_hang;
+
+            $chiTietSanPham = ChiTietSanPham::where('ma_chi_tiet_san_pham', $orderData['maChiTietSanPham'])->first();
+
             ChiTietDonHang::create([
                 'ma_don_hang' => $idDonHang,
                 'ma_chi_tiet_san_pham' => $orderData['maChiTietSanPham'],
-                'gia' => ChiTietSanPham::where('ma_chi_tiet_san_pham', $orderData['maChiTietSanPham'])->first()->gia,
+                'gia' => $chiTietSanPham->gia,
                 'so_luong_dat' => $orderData['soLuong'],
             ]);
+            $chiTietSanPham->so_luong -= $orderData['soLuong'];
+            $chiTietSanPham->save(); 
+
             toastr()->success('Đặt hàng thành công!');
 
             return redirect()->route('home');
         } catch (\Exception $err) {
-            dd($err);
             toastr()->error('Đã xảy ra lỗi, vui lòng thử lại sau.');
-
             return redirect()->back();
         }
     }

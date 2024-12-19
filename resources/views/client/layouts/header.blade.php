@@ -49,7 +49,7 @@
             <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                 @auth
 
-                <a href="" class="position-relative">
+                <a href="{{ route('client.view-cart') }}" class="position-relative">
                     <i class="fa-solid fa-cart-shopping text-primary" style="font-size: 22px; width: 22px; height: 22px"></i>
                     <span class="cart-count position-absolute top-0 start-100 translate-middle-x translate-middle-y badge rounded-pill bg-danger">
                        {{ $spGioHang }}

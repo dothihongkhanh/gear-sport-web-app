@@ -107,8 +107,10 @@ Route::controller(ClientDonHangController::class)->group(function () {
     Route::post('luu', 'saveOrder')->name('client.donhang.luu');
     Route::post('buy', 'buyProduct')->name('client.buy');
     Route::get('checkout-single', 'showOrder')->name('client.thanhtoan.checkout-single');
-    Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
-    Route::post('cart', 'viewCart')->name('client.view-cart');
+    Route::get('order', 'viewAllOrder')->name('client.donhang.view-all');
+    Route::get('view-detail-order/{ma_don_hang}', 'viewDetailOrder')->name('client.donhang.detail');
+    Route::patch('received/{ma_don_hang}', 'received')->name('client.donhang.received');
+    Route::patch('cancel/{ma_don_hang}', 'cancel')->name('client.donhang.cancel');
 });
 
 Route::controller(GioHangController::class)->group(function () {

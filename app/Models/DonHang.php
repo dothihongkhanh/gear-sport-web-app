@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TrangThaiDonHang;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,5 +41,25 @@ class DonHang extends Model
         return $this->chiTietDonHang->sum(function ($chiTiet) {
             return $chiTiet->thanhTien(); // Tổng giá trị của mỗi chi tiết đơn hàng
         });
+    }
+
+    public function dangChoXuLy(): bool
+    {
+        return $this->trang_thai === TrangThaiDonHang::DangChoXuLy;
+    }
+
+    public function dangGiaoHang(): bool
+    {
+        return $this->trang_thai === TrangThaiDonHang::DangGiaoHang;
+    }
+
+    public function hoanThanh(): bool
+    {
+        return $this->trang_thai === TrangThaiDonHang::HoanThanh;
+    }
+
+    public function daHuy(): bool
+    {
+        return $this->trang_thai === TrangThaiDonHang::DaHuy;
     }
 }

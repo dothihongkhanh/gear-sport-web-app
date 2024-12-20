@@ -6,8 +6,8 @@
     <div class="container-lg">
         <div class="row">
             <div class="col-lg-6 pt-5 mt-5">
-                <h2 class="display-1 ls-1"><span class="fw-bold text-white">FitSmart</span></h2>
-                <h3 class="display-2 ls-1 text-white">Đầu tư thông minh cho sức khỏe của bạn!</h3>
+                <h2 class="display-1 ls-1"><span class="fw-bold">FitSmart</span></h2>
+                <h3 class="display-2 ls-1">Đầu tư thông minh cho sức khỏe của bạn!</h3>
 
                 <div class="d-flex gap-3 my-5">
                     <a href="#" class="btn btn-primary text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">Mua ngay</a>
@@ -120,8 +120,8 @@
                     <div class="col">
                         <div class="product-item border border-2 d-flex flex-column" style="height: 350px;">
                             <figure>
-                                <a href="index.html" title="{{ $sanPham->ten_san_pham }}">
-                                <img src="{{ $sanPham->hinh_anh }}" alt="{{ $sanPham->ten_san_pham }}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
+                                <a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" title="{{ $sanPham->ten_san_pham }}">
+                                    <img src="{{ $sanPham->hinh_anh }}" alt="{{ $sanPham->ten_san_pham }}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
                                 </a>
                             </figure>
                             <div class="d-flex flex-column text-center">
@@ -132,13 +132,7 @@
                                 </div>
                                 <div class="button-area p-3 pt-0">
                                     <div class="row g-1 mt-2">
-                                        <div class="col-6">
-                                            <a href="#" class="btn btn-primary rounded-1 p-2 fs-7">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                Thêm
-                                            </a>
-                                        </div>
-                                        <div class="col-6"><a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" class="btn btn-outline-primary rounded-1 p-2 fs-7"><i class="fa fa-eye"></i> Xem chi tiết</a>
+                                        <div class="col-12"><a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" class="btn btn-outline-primary rounded-1 p-2 fs-7"><i class="fa fa-eye"></i> Xem chi tiết</a>
                                         </div>
                                     </div>
                                 </div>
@@ -155,7 +149,7 @@
 @foreach($dsDanhMuc as $danhMuc)
 @if($danhMuc->sanPham->isNotEmpty())
 <section id="featured-products" class="products-carousel">
-    <div class="container-lg overflow-hidden pb-5">
+    <div id="{{ $danhMuc->ma_danh_muc }}" class="container-lg overflow-hidden pb-5">
         <div class="row">
             <div class="col-md-12">
 
@@ -163,7 +157,6 @@
 
                     <h3 class="section-title border-bottom border-primary border-2">{{ $danhMuc->ten_danh_muc }}</h3>
                     <div class="d-flex align-items-center">
-                        <a href="#" class="btn btn-primary me-2">Xem tất cả</a>
                         <div class="swiper-buttons">
                             <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
                             <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
@@ -181,7 +174,7 @@
                         @foreach($danhMuc->sanPham as $sanPham)
                         <div class="product-item swiper-slide border border-2 d-flex flex-column" style="height: 350px;">
                             <figure class="flex-grow-1">
-                                <a href="" title="{{ $sanPham->ten_san_pham }}">
+                                <a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" title="{{ $sanPham->ten_san_pham }}">
                                     <img src="{{ $sanPham->hinh_anh }}" alt="{{ $sanPham->ten_san_pham }}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
                                 </a>
                             </figure>
@@ -193,13 +186,7 @@
                                 </div>
                                 <div class="button-area p-3 pt-0 mt-auto">
                                     <div class="row g-1 mt-2">
-                                        <div class="col-6">
-                                            <a href="#" class="btn btn-primary rounded-1 p-2 fs-7">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                Thêm
-                                            </a>
-                                        </div>
-                                        <div class="col-6"><a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" class="btn btn-outline-primary rounded-1 p-2 fs-7"><i class="fa fa-eye"></i> Xem chi tiết</a>
+                                        <div class="col-lg-12"><a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" class="btn btn-outline-primary rounded-1 p-2 fs-7"><i class="fa fa-eye"></i> Xem chi tiết</a>
                                         </div>
                                     </div>
                                 </div>

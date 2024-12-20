@@ -13,17 +13,17 @@
             <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
                 <div class="search-bar row bg-light p-2 rounded-4">
                     <div class="col-md-4 d-none d-md-block">
-                        <select class="form-select border-0 bg-transparent">
-                            <option>Danh mục</option>
-
+                        <select class="form-select border-0 bg-transparent" id="category-select">
+                            <option value="">Danh mục</option>
                             @foreach ($dsDanhMuc as $danhMuc)
-                            <option>{{ $danhMuc->ten_danh_muc }}</option>
+                            <option value="#{{ $danhMuc->ma_danh_muc }}">{{ $danhMuc->ten_danh_muc }}</option>
                             @endforeach
                         </select>
+
                     </div>
                     <div class="col-11 col-md-7">
-                        <form id="search-form" class="text-center" action="index.html" method="post">
-                            <input type="text" class="form-control border-0 bg-transparent" placeholder="Tìm kiếm...">
+                        <form id="search-form" class="text-center" action="{{ route('client.search') }}" method="get">
+                            <input type="text" class="form-control border-0 bg-transparent" name="query" placeholder="Tìm kiếm...">
                         </form>
                     </div>
                     <div class="col-1">
@@ -38,7 +38,7 @@
                         <a href="/" class="nav-link">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/" class="nav-link">Sản phẩm</a>
+                        <a href="{{ route('client.products') }}" class="nav-link">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
                         <a href="/" class="nav-link">Liên hệ</a>
@@ -52,7 +52,7 @@
                 <a href="{{ route('client.view-cart') }}" class="position-relative">
                     <i class="fa-solid fa-cart-shopping text-primary" style="font-size: 22px; width: 22px; height: 22px"></i>
                     <span class="cart-count position-absolute top-0 start-100 translate-middle-x translate-middle-y badge rounded-pill bg-danger">
-                       {{ $spGioHang }}
+                        {{ $spGioHang }}
                     </span>
 
                 </a>

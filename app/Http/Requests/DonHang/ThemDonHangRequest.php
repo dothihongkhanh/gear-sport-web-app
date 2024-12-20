@@ -23,7 +23,10 @@ class ThemDonHangRequest extends FormRequest
     {
         return [
             'ten_nguoi_nhan' => 'required',
-            'sdt_nhan_hang' => 'required',
+            'sdt_nhan_hang' => [
+                'required',
+                'regex:/^[0-9]{10}$/'
+            ],
             'dia_chi_nhan_hang' => 'required',
         ];
     }
@@ -34,6 +37,7 @@ class ThemDonHangRequest extends FormRequest
             'ten_nguoi_nhan.required' => 'Tên người nhận không được để trống!',
             'sdt_nhan_hang.required' => 'Số điện thoại không được để trống!',
             'dia_chi_nhan_hang.required' => 'Địa chỉ không được để trống!',
+            'sdt_nhan_hang.regex' => 'Số điện thoại phải có 10 chữ số.',
         ];
     }
 }

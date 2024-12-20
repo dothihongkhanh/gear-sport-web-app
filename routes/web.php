@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Client\DonHangController as ClientDonHangController;
 use App\Http\Controllers\Client\GioHangController;
+use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use App\Http\Controllers\Client\TrangChuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -97,30 +98,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 //client
-Route::controller(TrangChuController::class)->group(function () {
+Route::controller(ClientSanPhamController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('chi-tiet-san-pham/{ma_san_pham}', 'detail')->name('client.sanpham.detail');
-    
+    Route::get('search', 'search')->name('client.search');
+    Route::get('products', 'listProducts')->name('client.products');
+    Route::get('filter', 'filter')->name('client.filter.products');
 });
 
-Route::controller(ClientDonHangController::class)->group(function () {
-    Route::post('luu', 'saveOrder')->name('client.donhang.luu');
-    Route::post('buy', 'buyProduct')->name('client.buy');
-    Route::get('checkout-single', 'showOrder')->name('client.thanhtoan.checkout-single');
-    Route::get('order', 'viewAllOrder')->name('client.donhang.view-all');
-    Route::get('view-detail-order/{ma_don_hang}', 'viewDetailOrder')->name('client.donhang.detail');
-    Route::patch('received/{ma_don_hang}', 'received')->name('client.donhang.received');
-    Route::patch('cancel/{ma_don_hang}', 'cancel')->name('client.donhang.cancel');
+Route::middleware(['verified'])->group(function () {
+    Route::controller(ClientDonHangController::class)->group(function () {
+        Route::post('luu', 'saveOrder')->name('client.donhang.luu');
+        Route::post('buy', 'buyProduct')->name('client.buy');
+        Route::get('checkout-single', 'showOrder')->name('client.thanhtoan.checkout-single');
+        Route::get('order', 'viewAllOrder')->name('client.donhang.view-all');
+        Route::get('view-detail-order/{ma_don_hang}', 'viewDetailOrder')->name('client.donhang.detail');
+        Route::patch('received/{ma_don_hang}', 'received')->name('client.donhang.received');
+        Route::patch('cancel/{ma_don_hang}', 'cancel')->name('client.donhang.cancel');
+    });
+
+    Route::controller(GioHangController::class)->group(function () {
+        Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
+        Route::get('cart', 'viewCart')->name('client.view-cart');
+        Route::delete('delete/{ma_gio_hang}', 'deleteCart')->name('client.giohang.delete');
+        Route::post('buy-from-cart', 'buyFromCart')->name('client.giohang.buy-from-cart');
+        Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
+        Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
+    });
 });
-
-Route::controller(GioHangController::class)->group(function () {
-    Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
-    Route::get('cart', 'viewCart')->name('client.view-cart');
-    Route::delete('delete/{ma_gio_hang}', 'deleteCart')->name('client.giohang.delete');
-    Route::post('buy-from-cart', 'buyFromCart')->name('client.giohang.buy-from-cart');
-    Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
-    Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
-});
-
-
-

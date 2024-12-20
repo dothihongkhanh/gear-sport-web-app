@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-8 mb-2"><span class="d-flex justify-content-center">Hoặc</span></div>
                                 <div class="col-8 mb-3">
-                                    <a class="btn btn-outline-primary w-100" href="">
+                                    <a class="btn btn-outline-primary w-100" href="{{ route('auth.google') }}">
                                         <i class="fab fa-google fa-fw"></i> Đăng nhập với Google
                                     </a>
                                 </div>

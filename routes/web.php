@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\NguoiDungController;
 use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\ThuongHieuController;
+use App\Http\Controllers\Auth\LoginGoogleController;
 use App\Http\Controllers\Client\DonHangController as ClientDonHangController;
 use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
@@ -125,4 +126,9 @@ Route::middleware(['verified'])->group(function () {
         Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
         Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
     });
+});
+
+Route::controller(LoginGoogleController::class)->group(function(){
+    Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
+    Route::get('auth/google/callback', 'handleGoogleCallback');
 });

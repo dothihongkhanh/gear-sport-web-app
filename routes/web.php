@@ -116,6 +116,7 @@ Route::middleware(['verified'])->group(function () {
         Route::get('view-detail-order/{ma_don_hang}', 'viewDetailOrder')->name('client.donhang.detail');
         Route::patch('received/{ma_don_hang}', 'received')->name('client.donhang.received');
         Route::patch('cancel/{ma_don_hang}', 'cancel')->name('client.donhang.cancel');
+        Route::get('/vnpay-callback', 'vnpay_callback');
     });
 
     Route::controller(GioHangController::class)->group(function () {
@@ -125,6 +126,7 @@ Route::middleware(['verified'])->group(function () {
         Route::post('buy-from-cart', 'buyFromCart')->name('client.giohang.buy-from-cart');
         Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
         Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
+        Route::get('/vnpay-callback', 'vnpay_callback');
     });
 });
 

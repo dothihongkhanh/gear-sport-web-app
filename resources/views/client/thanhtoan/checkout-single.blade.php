@@ -68,11 +68,12 @@
                                 <p class="mb-0 text-danger fw-bold">{{ number_format($soLuong*$chiTietSanPham->gia, 0, '.', '.') }} VND</p>
                             </div>
                             <p class="mb-1">Phương thức thanh toán:</p>
-                            <select name="phuong_thuc_thanh_toan" class="form-select border border-dark">
+                            <select name="phuong_thuc_thanh_toan" class="form-select border border-dark" id="payment-method">
                                 <option value="Thanh toán khi nhận hàng" selected>Thanh toán khi nhận hàng</option>
                                 <option value="VN Pay">Thanh toán qua VN Pay</option>
                             </select>
-                            <button type="submit" class="btn btn-primary w-100 mt-4 py-2 rounded-5">Đặt hàng</button>
+                            <input type="hidden" name="tong_tien" value="{{ $soLuong * $chiTietSanPham->gia }}">
+                            <button type="submit" class="btn btn-primary w-100 mt-4 py-2 rounded-5" id="submit-button">Đặt hàng</button>
                         </div>
                     </div>
                 </div>
@@ -80,4 +81,18 @@
         </div>
     </form>
 </section>
+
+<script>
+    document.getElementById('payment-method').addEventListener('change', function() {
+        var paymentMethod = this.value;
+        var submitButton = document.getElementById('submit-button');
+
+        if (paymentMethod === 'Thanh toán khi nhận hàng') {
+            submitButton.innerText = 'Đặt hàng'
+        } else if (paymentMethod === 'VN Pay') {
+            submitButton.innerText = 'Thanh toán';
+        }
+    });
+</script>
+
 @endsection

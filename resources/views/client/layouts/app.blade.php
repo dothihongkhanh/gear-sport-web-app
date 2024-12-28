@@ -29,6 +29,25 @@
     @yield('content')
     @include('client.layouts.footer')
     @include('client.layouts.javascript')
-</body>
+    <!-- Biểu tượng Chat -->
+    <div class="chat-icon bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" onclick="toggleChat()" style="width: 50px; height: 50px; position: fixed; bottom: 20px; right: 20px; cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <i class="fa-solid fa-headset"></i>
+    </div>
 
+    <!-- Form Chatbox -->
+    <div id="chatbox" class="card position-fixed" style="bottom: 80px; right: 20px; width: 400px; display: none; z-index: 1000;">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <span>Tư vấn cá nhân hóa kế hoạch tập luyện</span>
+            <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
+        </div>
+        <div class="card-body overflow-auto" id="chat-box" style="max-height: 400px;">
+
+        </div>
+
+        <div class="card-footer d-flex">
+            <input type="text" id="user-message" class="form-control me-2" placeholder="Nhập tin nhắn...">
+            <button class="btn btn-primary" onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
+        </div>
+    </div>
+</body>
 </html>

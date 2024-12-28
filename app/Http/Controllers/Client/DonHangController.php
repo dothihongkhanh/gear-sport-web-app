@@ -122,7 +122,7 @@ class DonHangController extends Controller
         $vnp_TmnCode = env('VNP_TMNCODE');
         $vnp_HashSecret = env('VNP_HASHSECRET');
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback";
+        $vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback-single";
 
         $vnp_TxnRef = uniqid();
         $vnp_OrderInfo = "Thanh toán đơn hàng #" . $vnp_TxnRef;

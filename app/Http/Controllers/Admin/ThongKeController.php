@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhMuc;
+use App\Models\DonHang;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 
 class ThongKeController extends Controller
@@ -12,9 +15,22 @@ class ThongKeController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard.index', [
-            'title' => 'Thống kê'
-        ]);
+        $tongDanhMuc = DanhMuc::count();
+        $tongSanPham = SanPham::count();
+        $tongDonHang = DonHang::count();
+        $doanhThu = DonHang::with('chiTietDonHang')->get()->sum(function ($donHang) {
+            return $donHang->tongGiaTri();
+        });
+
+        $data = [
+            'tongDanhMuc' => $tongDanhMuc,
+            'tongSanPham' => $tongSanPham,
+            'tongDonHang' => $tongDonHang,
+            'doanhThu' => $doanhThu,
+            'title' => 'Thống kê',
+        ];
+
+        return view('admin.dashboard.index', $data);
     }
 
     /**

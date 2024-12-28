@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Auth\LoginGoogleController;
+use App\Http\Controllers\Client\ChatController;
 use App\Http\Controllers\Client\DonHangController as ClientDonHangController;
 use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
@@ -93,7 +94,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Auth::routes(['verify' => true]);
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['verified'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 });
 
@@ -116,7 +117,7 @@ Route::middleware(['verified'])->group(function () {
         Route::get('view-detail-order/{ma_don_hang}', 'viewDetailOrder')->name('client.donhang.detail');
         Route::patch('received/{ma_don_hang}', 'received')->name('client.donhang.received');
         Route::patch('cancel/{ma_don_hang}', 'cancel')->name('client.donhang.cancel');
-        Route::get('/vnpay-callback', 'vnpay_callback');
+        Route::get('/vnpay-callback-single', 'vnpay_callback');
     });
 
     Route::controller(GioHangController::class)->group(function () {
@@ -130,7 +131,15 @@ Route::middleware(['verified'])->group(function () {
     });
 });
 
-Route::controller(LoginGoogleController::class)->group(function(){
+Route::controller(LoginGoogleController::class)->group(function () {
     Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
     Route::get('auth/google/callback', 'handleGoogleCallback');
+});
+
+
+
+
+Route::post('/chat', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat', function () {
+    return view('client.chat');
 });

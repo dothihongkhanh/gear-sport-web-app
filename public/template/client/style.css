@@ -672,34 +672,22 @@ a.btn-link.text-light:after {
     transform: scale(1.1);
     transition: 0.3s ease;
 }
-.chatbox-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 300px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: none;
+
+#chat-box {
+    display: flex;
     flex-direction: column;
-    z-index: 1000;
+    align-items: flex-start;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-.chatbox-container {
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.chatbox-container.hidden {
-    transform: translateY(100%);
-    opacity: 0;
-}
 .message {
     margin-bottom: 10px;
     padding: 5px 10px;
     border-radius: 20px;
-    max-width: 80%;
     word-wrap: break-word;
+    display: block;
+    max-width: 80%;
 }
 
 .user-message {
@@ -717,4 +705,3 @@ a.btn-link.text-light:after {
     margin-right: auto;
     text-align: left;
 }
-

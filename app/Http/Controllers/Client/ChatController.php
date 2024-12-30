@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Services\GeminiAPIService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -18,17 +19,13 @@ class ChatController extends Controller
     public function sendMessage(Request $request)
     {
         $userMessage = $request->input('message');
+        $conversationHistory = session('conversation_history', []);
+        $conversationHistory[] = ['role' => 'user', 'content' => $userMessage];
 
         try {
-            $analysis = $this->aiAnalysisService->analyzeResults([
-                ['text' => $userMessage]
-            ]);
-
-            if (isset($analysis['candidates'][0]['content']['parts'][0]['text'])) {
-                $aiResponse = $analysis['candidates'][0]['content']['parts'][0]['text'];
-            } else {
-                $aiResponse = 'Có lỗi trong quá trình phân tích. Vui lòng thử lại!';
-            }
+            $aiResponse = $this->aiAnalysisService->analyzeResults($conversationHistory);
+            $conversationHistory[] = ['role' => 'assistant', 'content' => $aiResponse];
+            session(['conversation_history' => $conversationHistory]);
 
             return response()->json([
                 'status' => 'success',
@@ -40,5 +37,25 @@ class ChatController extends Controller
                 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
             ]);
         }
+    }
+
+    public function clearConversationHistory()
+    {
+        session()->forget('conversation_history');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lịch sử hội thoại đã được xóa!'
+        ]);
+    }
+
+    public function getChatHistory()
+    {
+        $messages = session()->get('conversation_history', []);
+        // Log::info('Chat history session:', $messages);
+
+        return response()->json([
+            'status' => 'success',
+            'messages' => $messages
+        ]);
     }
 }

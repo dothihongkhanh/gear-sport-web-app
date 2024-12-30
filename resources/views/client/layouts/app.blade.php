@@ -35,19 +35,17 @@
     </div>
 
     <!-- Form Chatbox -->
-    <div id="chatbox" class="card position-fixed" style="bottom: 80px; right: 20px; width: 400px; display: none; z-index: 1000;">
+    <div id="chatbox" class="card position-fixed" style="bottom: 80px; right: 20px; width: 370px; display: none; z-index: 1000;">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <span>Tư vấn cá nhân hóa kế hoạch tập luyện</span>
+            <b>FitSmart</b>
             <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
         </div>
-        <div class="card-body overflow-auto" id="chat-box" style="max-height: 400px;">
-
-        </div>
-
+        <div class="card-body overflow-auto" id="chat-box" style="white-space: pre-line; max-height: 400px;"><div class="message ai-message">Chào mừng bạn đến với FitSmart!</div></div>
         <div class="card-footer d-flex">
             <input type="text" id="user-message" class="form-control me-2" placeholder="Nhập tin nhắn...">
-            <button class="btn btn-primary" onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
+            <button id="send-button" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
     </div>
 </body>
+
 </html>

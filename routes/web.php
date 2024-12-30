@@ -136,10 +136,8 @@ Route::controller(LoginGoogleController::class)->group(function () {
     Route::get('auth/google/callback', 'handleGoogleCallback');
 });
 
-
-
-
-Route::post('/chat', [ChatController::class, 'sendMessage'])->name('chat.send');
-Route::get('/chat', function () {
-    return view('client.chat');
+Route::middleware(['verified'])->group(function () {
+    Route::post('/chat', [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::post('/chat/clear-history', [ChatController::class, 'clearConversationHistory'])->name('chat.clearHistory');    
 });
+Route::get('/chat/history', [ChatController::class, 'getChatHistory'])->name('chat.history');

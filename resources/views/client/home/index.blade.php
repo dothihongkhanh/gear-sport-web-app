@@ -66,39 +66,6 @@
     </div>
 </section>
 
-<section class="py-3 overflow-hidden">
-    <div class="container-lg">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="section-header d-flex flex-wrap justify-content-between mb-2">
-                    <h3 class="section-title border-bottom border-primary border-3">Thương hiệu</h3>
-                    <div class="d-flex align-items-center">
-                        <div class="swiper-buttons">
-                            <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
-                            <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="category-carousel swiper">
-                    <div class="swiper-wrapper">
-                        @foreach($dsThuongHieu as $thuongHieu)
-                        <a href="/" class="nav-link swiper-slide text-center">
-                            <span class="fs-4 fw-normal category-title text-dark">{{ $thuongHieu->ten_thuong_hieu }}</span>
-                        </a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="pb-3">
     <div class="container-lg">
 

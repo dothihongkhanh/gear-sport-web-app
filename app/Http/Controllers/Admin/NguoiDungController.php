@@ -15,7 +15,7 @@ class NguoiDungController extends Controller
     {
         $dsNguoiDung = NguoiDung::withTrashed()->where('ma_quyen', 2)->get();
 
-        return view('admin.nguoidung.index', compact('dsNguoiDung'), ['title' => 'Quanr lý người dùng']);
+        return view('admin.nguoidung.index', compact('dsNguoiDung'), ['title' => 'Quản lý người dùng']);
     }
 
     /**

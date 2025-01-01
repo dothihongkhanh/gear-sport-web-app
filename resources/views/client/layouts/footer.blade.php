@@ -79,7 +79,7 @@
     <div class="container-lg">
         <div class="row">
             <div class="col-md-6 copyright">
-                <p>Coppy right © 2024 Organic. Thiết kế bởi Nguyễn Lê Thảo Nguyệt.</p>
+                <p>Coppy right © 2024. Thiết kế bởi Nguyễn Lê Thảo Nguyệt.</p>
             </div>
         </div>
     </div>

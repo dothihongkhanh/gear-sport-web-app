@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div style="border-top: 1px solid rgba(0, 0, 0);">
-                <button type="submit" class="btn btn-primary mt-2">Lưu co chi tiet</button>
+                <button type="submit" class="btn btn-primary mt-2">Lưu</button>
             </div>
             @csrf
         </form>

@@ -64,5 +64,5 @@
     @endforeach
 
 </table>
-{{ $dsSanPham->links() }}
+<div class="mt-3">{{ $dsSanPham->links() }}</div>
 @endsection

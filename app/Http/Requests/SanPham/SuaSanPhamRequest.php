@@ -24,7 +24,6 @@ class SuaSanPhamRequest extends FormRequest
         return [
             'ten_san_pham' => 'required',
             'hinh_anh' => 'nullable',
-            'chiTietSanPham.*.thuoc_tinh' => 'required',
             'chiTietSanPham.*.gia' => 'required|gt:0',
             'chiTietSanPham.*.so_luong' => 'required|gt:0',
         ];
@@ -34,7 +33,6 @@ class SuaSanPhamRequest extends FormRequest
     {
         return [
             'ten_san_pham.required' => 'Tên sản phẩm không được để trống!',
-            'chiTiet.*.thuoc_tinh.required' => 'Thuộc tính không được để trống!',
             'chiTiet.*.gia.required' => 'Giá không được để trống!',
             'chiTiet.*.gia.required' => 'Giá phải lớn hơn 0!',
             'chiTiet.*.so_luong.required' => 'Số lượng không được để trống!',

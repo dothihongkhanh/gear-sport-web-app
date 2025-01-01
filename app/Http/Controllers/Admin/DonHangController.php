@@ -14,7 +14,7 @@ class DonHangController extends Controller
      */
     public function index()
     {
-        $dsDonHang = DonHang::withTrashed()->with('nguoiDung')->paginate(5);
+        $dsDonHang = DonHang::withTrashed()->with('nguoiDung')->get();
 
         return view('admin.donhang.index', compact('dsDonHang'), ['title' => 'Quản lý đơn hàng']);
     }

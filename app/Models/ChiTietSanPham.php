@@ -29,4 +29,9 @@ class ChiTietSanPham extends Model
     {
         return $this->so_luong == 0;
     }
+    
+    public function chiTietDonHang()
+    {
+        return $this->hasMany(ChiTietDonHang::class, 'ma_chi_tiet_san_pham', 'ma_chi_tiet_san_pham');
+    }
 }

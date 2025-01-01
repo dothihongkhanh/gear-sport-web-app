@@ -20,7 +20,7 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $dsSanPham = SanPham::withTrashed()->with(['danhMuc', 'thuongHieu'])->oldest('ma_san_pham')->paginate(10);
+        $dsSanPham = SanPham::withTrashed()->with(['danhMuc', 'thuongHieu'])->oldest('ma_san_pham')->paginate(3);
 
         return view('admin.sanpham.index', compact('dsSanPham'), [
             'title' => 'Danh sách sản phẩm'

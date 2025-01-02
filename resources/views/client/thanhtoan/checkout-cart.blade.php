@@ -23,17 +23,17 @@
                                 $tongThanhToan = 0;
                                 @endphp
                                 @foreach ($dsGioHang as $gioHang)
-                                @foreach ($gioHang->chiTietSanPham as $chiTiet)
+                                @foreach ($gioHang->chiTietGioHang as $chiTietGH)
                                 <tr>
                                     @php
-                                    $tongThanhToan += $gioHang->so_luong * $chiTiet->gia;
+                                    $tongThanhToan += $chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia;
                                     @endphp
-                                    <td><img src="{{ $chiTiet->sanPham->hinh_anh }}" class="card card-img border-0 shadow-sm" style="width: 80px;"></td>
-                                    <td>{{ $chiTiet->sanPham->ten_san_pham }}</td>
-                                    <td>{{ $chiTiet->thuoc_tinh }}
-                                    <td class="text-danger">{{ number_format($chiTiet->gia, 0, '.', '.') }} VND</td>
-                                    <td>{{ $gioHang->so_luong }}</td>
-                                    <td class="text-danger">{{ number_format($gioHang->so_luong*$chiTiet->gia, 0, '.', '.') }} VND</td>
+                                    <td><img src="{{ $chiTietGH->chiTietSanPham->hinh_anh_chi_tiet }}" class="card card-img border-0 shadow-sm" style="width: 80px;"></td>
+                                    <td>{{ $chiTietGH->chiTietSanPham->sanPham->ten_san_pham }}</td>
+                                    <td>{{ $chiTietGH->chiTietSanPham->thuoc_tinh }}
+                                    <td class="text-danger">{{ number_format($chiTietGH->chiTietSanPham->gia, 0, '.', '.') }} VND</td>
+                                    <td>{{ $chiTietGH->so_luong }}</td>
+                                    <td class="text-danger">{{ number_format($chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia, 0, '.', '.') }} VND</td>
                                 </tr>
                                 @endforeach
                                 @endforeach

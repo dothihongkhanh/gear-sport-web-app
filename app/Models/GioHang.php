@@ -22,8 +22,8 @@ class GioHang extends Model
         return $this->belongsTo(NguoiDung::class, 'ma_nguoi_dung', 'ma_nguoi_dung');
     }
 
-    public function chiTietSanPham()
+    public function chiTietGioHang()
     {
-        return $this->hasMany(ChiTietSanPham::class, 'ma_chi_tiet_san_pham', 'ma_chi_tiet_san_pham');
+        return $this->hasMany(ChiTietGioHang::class, 'ma_gio_hang', 'ma_gio_hang');
     }
 }

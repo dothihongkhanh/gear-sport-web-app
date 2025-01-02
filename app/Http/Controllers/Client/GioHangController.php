@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonHang\ThemDonHangRequest;
 use App\Models\ChiTietDonHang;
+use App\Models\ChiTietGioHang;
 use App\Models\ChiTietSanPham;
 use App\Models\DonHang;
 use App\Models\GioHang;
@@ -19,11 +20,21 @@ class GioHangController extends Controller
             $soLuong = $request->input('so_luong');
             $maChiTietSanPham = $request->input('ma_chi_tiet_san_pham');
 
-            GioHang::create([
+            $gioHang = GioHang::firstOrCreate([
                 'ma_nguoi_dung' => Auth::user()->ma_nguoi_dung,
-                'ma_chi_tiet_san_pham' => $maChiTietSanPham,
-                'so_luong' => $soLuong,
             ]);
+
+            $chiTietSanPham = ChiTietGioHang::where('ma_gio_hang', $gioHang->ma_gio_hang)->where('ma_chi_tiet_san_pham', $maChiTietSanPham)->first();
+
+            if ($chiTietSanPham) {
+                $chiTietSanPham->increment('so_luong', $soLuong);
+            } else {
+                ChiTietGioHang::create([
+                    'ma_gio_hang' => $gioHang->ma_gio_hang,
+                    'ma_chi_tiet_san_pham' => $maChiTietSanPham,
+                    'so_luong' => $soLuong,
+                ]);
+            }
 
             toastr()->success('Thêm vào giỏ hàng thành công!');
         } catch (\Exception $err) {
@@ -37,7 +48,7 @@ class GioHangController extends Controller
     public function viewCart()
     {
         $maNguoiDung = Auth::user()->ma_nguoi_dung;
-        $dsGioHang = GioHang::with(['chiTietSanPham.sanPham'])->where('ma_nguoi_dung', $maNguoiDung)->get();
+        $dsGioHang = GioHang::where('ma_nguoi_dung', $maNguoiDung)->with(['chiTietGioHang.chiTietSanPham.sanPham'])->get();
 
         return view('client.giohang.index', compact('dsGioHang'));
     }
@@ -45,8 +56,8 @@ class GioHangController extends Controller
     public function deleteCart(string $id)
     {
         try {
-            $gioHang = GioHang::findOrFail($id);
-            $gioHang->delete();
+            $chiTietGioHang = ChiTietGioHang::findOrFail($id);
+            $chiTietGioHang->delete();
 
             toastr()->success('Xóa thành công!');
 
@@ -61,7 +72,7 @@ class GioHangController extends Controller
     public function buyFromCart()
     {
         $maNguoiDung = Auth::user()->ma_nguoi_dung;
-        $dsGioHang = GioHang::where('ma_nguoi_dung', $maNguoiDung)->get();
+        $dsGioHang = GioHang::where('ma_nguoi_dung', $maNguoiDung)->with(['chiTietGioHang.chiTietSanPham.sanPham'])->get();
         session(['dsGioHang' => $dsGioHang]);
 
         return redirect()->route('client.thanhtoan.checkout-cart');
@@ -96,20 +107,19 @@ class GioHangController extends Controller
                     continue;
                 }
 
-                if (isset($gioHang['chi_tiet_san_pham'])) {
-                    foreach ($gioHang['chi_tiet_san_pham'] as $chiTiet) {
-                        ChiTietDonHang::create([
-                            'ma_don_hang' => $idDonHang,
-                            'ma_chi_tiet_san_pham' => $chiTiet['ma_chi_tiet_san_pham'],
-                            'gia' => $chiTiet['gia'],
-                            'so_luong_dat' => $gioHang['so_luong'],
-                        ]);
+                foreach ($gioHang['chi_tiet_gio_hang'] as $chiTietGioHang) {
+                    $chiTietSanPham = $chiTietGioHang['chi_tiet_san_pham'];
+                    ChiTietDonHang::create([
+                        'ma_don_hang' => $idDonHang,
+                        'ma_chi_tiet_san_pham' => $chiTietGioHang['ma_chi_tiet_san_pham'],
+                        'gia' => $chiTietSanPham['gia'],
+                        'so_luong_dat' => $chiTietGioHang['so_luong'],
+                    ]);
 
-                        $chiTietModel = ChiTietSanPham::find($chiTiet['ma_chi_tiet_san_pham']);
-                        if ($chiTietModel) {
-                            $chiTietModel->so_luong -= $gioHang['so_luong'];
-                            $chiTietModel->save();
-                        }
+                    $chiTietModel = ChiTietSanPham::find($chiTietGioHang['ma_chi_tiet_san_pham']);
+                    if ($chiTietModel) {
+                        $chiTietModel->so_luong -= $chiTietGioHang['so_luong'];
+                        $chiTietModel->save();
                     }
                 }
 
@@ -128,7 +138,6 @@ class GioHangController extends Controller
         }
     }
 
-
     public function saveOrderByCart(ThemDonHangRequest $request)
     {
         $dsGioHang = session('dsGioHang', []);
@@ -141,7 +150,6 @@ class GioHangController extends Controller
             'phuong_thuc_thanh_toan' => $request->input('phuong_thuc_thanh_toan'),
             'tong_tien' => $request->input('tong_tien'),
         ]);
-
         session(['dsGioHang' => $dsGioHang]);
 
         if (!$dsGioHang) {
@@ -150,7 +158,7 @@ class GioHangController extends Controller
 
         try {
             if ($request->input('phuong_thuc_thanh_toan') == 'Thanh toán khi nhận hàng') {
-                $this->saveOrderToDB($dsGioHang, 'Thanh toán khi nhận hàng', null);
+                $this->saveOrderByCartToDB($dsGioHang, 'Thanh toán khi nhận hàng', null);
                 toastr()->success('Đặt hàng thành công!');
 
                 return redirect()->route('client.donhang.view-all');

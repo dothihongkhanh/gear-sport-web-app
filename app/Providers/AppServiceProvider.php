@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ChiTietGioHang;
 use App\Models\DanhMuc;
 use App\Models\GioHang;
 use Illuminate\Support\ServiceProvider;
@@ -32,8 +33,10 @@ class AppServiceProvider extends ServiceProvider
             $spGioHang = 0;
             if (Auth::check()) {
                 $nguoiDung = Auth::user();
-                $spGioHang = GioHang::where('ma_nguoi_dung', $nguoiDung->ma_nguoi_dung)->sum('so_luong');
-            }
+                $spGioHang = ChiTietGioHang::join('gio_hang', 'chi_tiet_gio_hang.ma_gio_hang', '=', 'gio_hang.ma_gio_hang')
+                    ->where('gio_hang.ma_nguoi_dung', $nguoiDung->ma_nguoi_dung)
+                    ->sum('chi_tiet_gio_hang.so_luong');
+            }            
     
             $view->with([
                 'dsDanhMuc' => $dsDanhMuc,

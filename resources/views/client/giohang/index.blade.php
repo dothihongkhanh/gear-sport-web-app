@@ -7,8 +7,9 @@
             <div class="col-lg-12 mt-4">
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-white text-primary">Thông tin giỏ hàng</div>
+                    @foreach ($dsGioHang as $gioHang)
                     <div class="card-body">
-                        @if(count($dsGioHang) > 0)
+                        @if($gioHang->chiTietGioHang->count() > 0)
                         <table class="table table-hover">
                             <tr>
                                 <th>Sản phẩm</th>
@@ -22,27 +23,25 @@
                             @php
                             $tongThanhToan = 0;
                             @endphp
-                            @foreach ($dsGioHang as $gioHang)
-                            @foreach ($gioHang->chiTietSanPham as $chiTiet)
+                            @foreach ($gioHang->chiTietGioHang as $chiTietGH)
                             <tr>
                                 @php
-                                $tongThanhToan += $gioHang->so_luong * $chiTiet->gia;
+                                $tongThanhToan += $chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia;
                                 @endphp
-                                <td><img src="{{ $chiTiet->sanPham->hinh_anh }}" class="card card-img border-0 shadow-sm" style="width: 100px;"></td>
-                                <td>{{ $chiTiet->sanPham->ten_san_pham }}</td>
-                                <td>{{ $chiTiet->thuoc_tinh }}
-                                <td class="text-danger">{{ number_format($chiTiet->gia, 0, '.', '.') }} VND</td>
-                                <td>{{ $gioHang->so_luong }}</td>
-                                <td class="text-danger">{{ number_format($gioHang->so_luong*$chiTiet->gia, 0, '.', '.') }} VND</td>
+                                <td><img src="{{ $chiTietGH->chiTietSanPham->hinh_anh_chi_tiet }}" class="card card-img border-0 shadow-sm" style="width: 100px;"></td>
+                                <td>{{ $chiTietGH->chiTietSanPham->sanPham->ten_san_pham }}</td>
+                                <td>{{ $chiTietGH->chiTietSanPham->thuoc_tinh }}
+                                <td class="text-danger">{{ number_format($chiTietGH->chiTietSanPham->gia, 0, '.', '.') }} VND</td>
+                                <td>{{ $chiTietGH->so_luong }}</td>
+                                <td class="text-danger">{{ number_format($chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia, 0, '.', '.') }} VND</td>
                                 <td>
-                                    <form action="{{ route('client.giohang.delete', ['ma_gio_hang' => $gioHang->ma_gio_hang]) }}" method="POST">
+                                    <form action="{{ route('client.giohang.delete', ['ma_chi_tiet_gio_hang' => $chiTietGH->ma_chi_tiet_gio_hang]) }}" method="POST">
                                         @csrf
                                         @method('DELETE') <!-- Phương thức DELETE -->
                                         <button class="btn btn-outline-danger rounded-1"><i class="fa-regular fa-trash-can"></i></button>
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
                             @endforeach
                         </table>
                         <div class="row">
@@ -61,6 +60,7 @@
                         <p class="d-flex justify-content-center align-items-center">Không có sản phẩm nào trong giỏ hàng!</p>
                         @endif
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>

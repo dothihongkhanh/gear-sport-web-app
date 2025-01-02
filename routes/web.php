@@ -123,7 +123,7 @@ Route::middleware(['verified'])->group(function () {
     Route::controller(GioHangController::class)->group(function () {
         Route::post('add-to-cart', 'addToCart')->name('client.addtocart');
         Route::get('cart', 'viewCart')->name('client.view-cart');
-        Route::delete('delete/{ma_gio_hang}', 'deleteCart')->name('client.giohang.delete');
+        Route::delete('delete/{ma_chi_tiet_gio_hang}', 'deleteCart')->name('client.giohang.delete');
         Route::post('buy-from-cart', 'buyFromCart')->name('client.giohang.buy-from-cart');
         Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
         Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');

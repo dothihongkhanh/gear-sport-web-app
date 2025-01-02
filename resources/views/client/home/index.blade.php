@@ -66,7 +66,7 @@
     </div>
 </section>
 
-<section class="pb-3">
+<section class="pb-3 bg-light">
     <div class="container-lg">
 
         <div class="row">
@@ -85,7 +85,7 @@
                 <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
                     @foreach($sanPhamTop5 as $sanPham)
                     <div class="col">
-                        <div class="product-item border border-2 d-flex flex-column" style="height: 350px;">
+                        <div class="product-item border border-2 d-flex flex-column shadow-sm" style="height: 350px;">
                             <figure>
                                 <a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" title="{{ $sanPham->ten_san_pham }}">
                                     <img src="{{ $sanPham->hinh_anh }}" alt="{{ $sanPham->ten_san_pham }}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
@@ -115,7 +115,7 @@
 
 @foreach($dsDanhMuc as $danhMuc)
 @if($danhMuc->sanPham->isNotEmpty())
-<section id="featured-products" class="products-carousel">
+<section id="featured-products" class="products-carousel bg-light">
     <div id="{{ $danhMuc->ma_danh_muc }}" class="container-lg overflow-hidden pb-5">
         <div class="row">
             <div class="col-md-12">
@@ -139,7 +139,7 @@
                 <div class="swiper">
                     <div class="swiper-wrapper">
                         @foreach($danhMuc->sanPham as $sanPham)
-                        <div class="product-item swiper-slide border border-2 d-flex flex-column" style="height: 350px;">
+                        <div class="product-item swiper-slide border border-2 d-flex flex-column shadow-sm" style="height: 350px;">
                             <figure class="flex-grow-1">
                                 <a href="{{ route('client.sanpham.detail', ['ma_san_pham' => $sanPham->ma_san_pham]) }}" title="{{ $sanPham->ten_san_pham }}">
                                     <img src="{{ $sanPham->hinh_anh }}" alt="{{ $sanPham->ten_san_pham }}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
@@ -169,7 +169,7 @@
 @endif
 @endforeach
 
-<section class="py-5 h-100">
+<section class="py-5 h-100 bg-light">
     <div class="container-lg">
         <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-5">
             <div class="col">

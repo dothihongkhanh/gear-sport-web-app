@@ -28,7 +28,7 @@ class NguoiDungSeeder extends Seeder
             ],
             [
                 'ten_nguoi_dung' => 'khh',
-                'email' => 'khanh@gmail.com',
+                'email' => 'nguyet@gmail.com',
                 'thoi_gian_xac_thuc_email' => Carbon::now(),
                 'password' => bcrypt(123123),
                 'remember_token' => null,

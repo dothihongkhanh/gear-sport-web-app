@@ -7,9 +7,9 @@
             <div class="col-lg-12 mt-4">
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-white text-primary">Thông tin giỏ hàng</div>
-                    @foreach ($dsGioHang as $gioHang)
                     <div class="card-body">
-                        @if($gioHang->chiTietGioHang->count() > 0)
+                        @foreach ($dsGioHang as $gioHang)
+                        @if(isset($gioHang->chiTietGioHang) && $gioHang->chiTietGioHang->isNotEmpty())
                         <table class="table table-hover">
                             <tr>
                                 <th>Sản phẩm</th>
@@ -59,8 +59,8 @@
                         @else
                         <p class="d-flex justify-content-center align-items-center">Không có sản phẩm nào trong giỏ hàng!</p>
                         @endif
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>

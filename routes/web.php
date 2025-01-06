@@ -128,6 +128,7 @@ Route::middleware(['verified'])->group(function () {
         Route::get('checkout-cart', 'showBuyFromCart')->name('client.thanhtoan.checkout-cart');
         Route::post('save-by-cart', 'saveOrderByCart')->name('client.donhang.save-by-cart');
         Route::get('/vnpay-callback', 'vnpay_callback');
+        Route::post('update-cart', 'updateCart')->name('client.giohang.update');
     });
 });
 
@@ -138,6 +139,6 @@ Route::controller(LoginGoogleController::class)->group(function () {
 
 Route::middleware(['verified'])->group(function () {
     Route::post('/chat', [ChatController::class, 'sendMessage'])->name('chat.send');
-    Route::post('/chat/clear-history', [ChatController::class, 'clearConversationHistory'])->name('chat.clearHistory');    
+    Route::post('/chat/clear-history', [ChatController::class, 'clearConversationHistory'])->name('chat.clearHistory');
 });
 Route::get('/chat/history', [ChatController::class, 'getChatHistory'])->name('chat.history');

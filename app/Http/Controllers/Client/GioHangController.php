@@ -49,8 +49,53 @@ class GioHangController extends Controller
     {
         $maNguoiDung = Auth::user()->ma_nguoi_dung;
         $dsGioHang = GioHang::where('ma_nguoi_dung', $maNguoiDung)->with(['chiTietGioHang.chiTietSanPham.sanPham'])->get();
+        $tongThanhToan = 0;
+        if ($dsGioHang) {
+            foreach ($dsGioHang as $gioHang) {
+                foreach ($gioHang->chiTietGioHang as $chiTietGH) {
+                    $tongThanhToan += $chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia;
+                }
+            }
+        }
 
-        return view('client.giohang.index', compact('dsGioHang'));
+        return view('client.giohang.index', compact('dsGioHang', 'tongThanhToan'));
+    }
+
+    public function updateCart(Request $request)
+    {
+        $maChiTietGioHang = $request->input('ma_chi_tiet_gio_hang');
+        $soLuongMoi = $request->input('so_luong');
+
+        $chiTietGioHang = ChiTietGioHang::find($maChiTietGioHang);
+
+        $chiTietGioHang->so_luong = $soLuongMoi;
+        $chiTietGioHang->save();
+
+        $maNguoiDung = Auth::user()->ma_nguoi_dung;
+        $dsGioHang = GioHang::where('ma_nguoi_dung', $maNguoiDung)->with(['chiTietGioHang.chiTietSanPham.sanPham'])->get();
+        $spGioHang = 0;
+        if (Auth::check()) {
+            $nguoiDung = Auth::user();
+            $spGioHang = ChiTietGioHang::join('gio_hang', 'chi_tiet_gio_hang.ma_gio_hang', '=', 'gio_hang.ma_gio_hang')
+                ->where('gio_hang.ma_nguoi_dung', $nguoiDung->ma_nguoi_dung)
+                ->sum('chi_tiet_gio_hang.so_luong');
+        }
+        $tongThanhToan = 0;
+        if ($dsGioHang) {
+            foreach ($dsGioHang as $gioHang) {
+                foreach ($gioHang->chiTietGioHang as $chiTietGH) {
+                    $tongThanhToan += $chiTietGH->so_luong * $chiTietGH->chiTietSanPham->gia;
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật giỏ hàng thành công!',
+            'gia' => $chiTietGioHang->chiTietSanPham->gia,
+            'tongThanhToan' => $tongThanhToan,
+            'spGioHang' => $spGioHang
+        ]);
     }
 
     public function deleteCart(string $id)

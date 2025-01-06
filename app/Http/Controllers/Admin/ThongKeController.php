@@ -8,6 +8,7 @@ use App\Models\DonHang;
 use App\Models\SanPham;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ThongKeController extends Controller
 {
@@ -55,13 +56,14 @@ class ThongKeController extends Controller
         }
 
 
-        $top5SanPham = SanPham::withCount('chiTietSanPham')
-            ->with(['chiTietSanPham' => function ($query) {
-                $query->whereHas('chiTietDonHang');
-            }])
-            ->get()
-            ->sortByDesc('chi_tiet_san_pham_count')
-            ->take(5);
+        $top5SanPham = DB::table('chi_tiet_don_hang as ctdh')
+            ->join('chi_tiet_san_pham as ctsp', 'ctdh.ma_chi_tiet_san_pham', '=', 'ctsp.ma_chi_tiet_san_pham')
+            ->join('san_pham as sp', 'ctsp.ma_san_pham', '=', 'sp.ma_san_pham')
+            ->select('sp.ma_san_pham', 'sp.ten_san_pham', DB::raw('SUM(ctdh.so_luong_dat) as total_quantity'))
+            ->groupBy('sp.ma_san_pham', 'sp.ten_san_pham')
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get();
 
         $data = [
             'filterMonth' => $filterMonth,

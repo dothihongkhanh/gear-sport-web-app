@@ -51,7 +51,7 @@
                         @foreach ($top5SanPham as $sanPham)
                         <li>
                             <p><b>{{ $sanPham->ten_san_pham }}</b>
-                                <br> Đã bán: <i class="text-danger">{{ $sanPham->chi_tiet_san_pham_count }} sản phẩm</i>
+                                <br> Đã bán: <i class="text-danger">{{ $sanPham->total_quantity }} sản phẩm</i>
                             </p>
                         </li>
                         @endforeach

@@ -51,7 +51,7 @@
 
                 <a href="{{ route('client.view-cart') }}" class="position-relative">
                     <i class="fa-solid fa-cart-shopping text-primary" style="font-size: 22px; width: 22px; height: 22px"></i>
-                    <span class="cart-count position-absolute top-0 start-100 translate-middle-x translate-middle-y badge rounded-pill bg-danger">
+                    <span id="cart-count" class="cart-count position-absolute top-0 start-100 translate-middle-x translate-middle-y badge rounded-pill bg-danger">
                         {{ $spGioHang }}
                     </span>
 
